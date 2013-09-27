@@ -1,0 +1,2 @@
+content    ccptabs    chrome/content/
+overlay    chrome://browser/content/browser.xul    chrome://ccptabs/content/browserOverlay.xul

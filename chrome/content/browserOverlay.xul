@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ** Localized menuitem labels and access keys.
+  ** @see http://mxr.mozilla.org/mozilla-release/source/browser/locales/en-US/chrome/browser/browser.dtd
+  -->
+<!DOCTYPE overlay [
+<!ENTITY % browserDTD SYSTEM "chrome://browser/locale/browser.dtd">
+%browserDTD;
+]>
+
+<!--
+  ** Extends tab context popup menu with custom items (cut, copy and paste).
+  -->
+<overlay id="ccptabs_browserOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+    <script src="chrome://ccptabs/content/browserOverlay.js"/>
+
+    <!--
+      ** @see http://mxr.mozilla.org/mozilla-release/source/browser/base/content/browser.xul#22
+      -->
+    <window id="main-window">
+        <commandset id="ccptabsCommandSet">
+            <command id="ccptabs_cmd_cut"   oncommand="CutCopyPasteTabs.onCut();"/>
+            <command id="ccptabs_cmd_copy"  oncommand="CutCopyPasteTabs.onCopy();"/>
+            <command id="ccptabs_cmd_paste" oncommand="CutCopyPasteTabs.onPaste();"/>
+        </commandset>
+    </window>
+
+    <!--
+      ** @see http://mxr.mozilla.org/mozilla-release/source/browser/base/content/browser.xul#67
+      -->
+    <menupopup id="tabContextMenu">
+        <menuitem id="ccptabs_menu_cut" position="8"
+                  label="&cutCmd.label;"
+                  accesskey="&cutCmd.accesskey;"
+                  command="ccptabs_cmd_cut"/>
+        <menuitem id="ccptabs_menu_copy" position="9"
+                  label="&copyCmd.label;"
+                  accesskey="&copyCmd.accesskey;"
+                  command="ccptabs_cmd_copy"/>
+        <menuitem id="ccptabs_menu_paste" position="10"
+                  label="&pasteCmd.label;"
+                  accesskey="&pasteCmd.accesskey;"
+                  command="ccptabs_cmd_paste"/>
+        <menuseparator position="11"/>
+    </menupopup>
+</overlay>
