@@ -1,6 +1,5 @@
-const LINE_SEPARATOR = Services.appinfo.OS === "WINNT" ? "\r\n" : "\n";
-
 var CutCopyPasteTabs = {
+    LINE_SEPARATOR: Services.appinfo.OS === "WINNT" ? "\r\n" : "\n",
     /**
      * Copies URLs to clipboard and removes the tabs.
      * @see TabContextMenu http://mxr.mozilla.org/mozilla-release/source/browser/base/content/browser.js#6982
@@ -20,7 +19,7 @@ var CutCopyPasteTabs = {
     onCopy: function () {
         var tabs = this._getTabs();
         var uris = Array.map(tabs, function(tab) gBrowser.getBrowserForTab(tab).currentURI.spec);
-        var str = uris.join(LINE_SEPARATOR);
+        var str = uris.join(this.LINE_SEPARATOR);
         var transferable = this._getTransferable(TabContextMenu.contextTab);
 
         transferable.addDataFlavor("text/unicode");
