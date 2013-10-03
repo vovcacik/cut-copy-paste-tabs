@@ -8,7 +8,7 @@
     <em:type>2</em:type>
 
     <em:name>Cut, copy and paste Tabs</em:name>
-    <em:version>1.0.1</em:version>
+    <em:version>1.0.2</em:version>
     <em:description>Enables cut, copy and paste operations on tabs.</em:description>
     <em:creator>Vlastimil Ovčáčík</em:creator>
     <em:homepageURL>https://addons.mozilla.org/addon/cut-copy-paste-tabs/</em:homepageURL>
