@@ -69,21 +69,23 @@ var CutCopyPasteTabs = {
      * will run on multiple tabs.
      */
     handleEvent: function (event) {
-        switch (event.type) {
-            case 'popupshowing':
-                if (this._getTabs().length > 1) {
+        if (event.target.id == "tabContextMenu") {
+            switch (event.type) {
+                case 'popupshowing':
+                    if (this._getTabs().length > 1) {
+                        var menuitems = this._getMenuitems();
+                        for (var i = 0; i < menuitems.length; i++) {
+                            menuitems[i].setAttribute("style", "font-weight: bold;");
+                        }
+                    }
+                    break;
+                case 'popuphiding':
                     var menuitems = this._getMenuitems();
                     for (var i = 0; i < menuitems.length; i++) {
-                        menuitems[i].setAttribute("style", "font-weight: bold;");
+                        menuitems[i].setAttribute("style", "font-weight: normal;");
                     }
-                }
-                break;
-            case 'popuphiding':
-                var menuitems = this._getMenuitems();
-                for (var i = 0; i < menuitems.length; i++) {
-                    menuitems[i].setAttribute("style", "font-weight: normal;");
-                }
-                break;
+                    break;
+            }
         }
     },
     /**
