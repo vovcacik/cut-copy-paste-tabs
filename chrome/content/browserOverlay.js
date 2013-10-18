@@ -55,11 +55,36 @@ var CutCopyPasteTabs = {
          * Matches: scheme://userinfo@host:port/path?query#fragment
          * @see http://tools.ietf.org/html/rfc3986
          */
+        var gSessionStore = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
+        var on_demand = Services.prefs.getBoolPref("browser.sessionstore.restore_on_demand");
+
         var urlRegex = /\w[\w\d\+\-\.]+:\/\/(?:[\w\d\-\._~%!\$&'\(\)\*\+,;=:]*@)?(?:\[[\d\.A-Fa-f:]+\]|[\w\d\-\._~%!\$&'\(\)\*\+,;=]+)(?::\d+)?(?:\/[\w\d\-\._~%!\$&'\(\)\*\+,;=:@]*)*(?:\?[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?(?:#[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?/g;
         var matches = uri.match(urlRegex);
         if (matches) {
             for (var i = 0; i < matches.length; i++) {
-                var tab = gBrowser.addTab(matches[i]);
+                var url = matches[i];
+                var tab = null;
+                if (on_demand) {
+                    // Create new tab, but dont load the content.
+                    tab = gBrowser.addTab(null);
+                    gSessionStore.setTabState(tab,
+                        '{\
+                            "entries":[\
+                                {\
+                                    "url":"' + url + '",\
+                                    "title":"' + url + '"\
+                                }\
+                            ],\
+                            "lastAccessed":0,\
+                            "index":1,\
+                            "hidden":false,\
+                            "attributes":{},\
+                            "image":null\
+                        }'
+                    );
+                } else {
+                    tab = gBrowser.addTab(url);
+                }
                 gBrowser.moveTabTo(tab, TabContextMenu.contextTab._tPos+1+i);
             }
         }
