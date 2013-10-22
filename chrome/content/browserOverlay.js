@@ -12,6 +12,7 @@ var CutCopyPasteTabs = {
         for (var i = 0; i < tabs.length; i++) {
             gBrowser.removeTab(tabs[i], {animate: true});
         }
+        this._saveState();
     },
     /**
      * Copies URLs to clipboard.
@@ -87,6 +88,7 @@ var CutCopyPasteTabs = {
                 }
                 gBrowser.moveTabTo(tab, TabContextMenu.contextTab._tPos+1+i);
             }
+            this._saveState();
         }
     },
     /**
@@ -158,6 +160,18 @@ var CutCopyPasteTabs = {
             transferable.init(null);
         }
         return transferable;
+    },
+    /**
+     * Force Firefox to save the browser session.
+     * @see http://mxr.mozilla.org/mozilla-central/source/browser/components/sessionstore/src/SessionSaver.jsm#74
+     */
+    _saveState: function () {
+        try {
+            Components.utils.import("resource:///modules/sessionstore/SessionSaver.jsm", this);
+            this.SessionSaver.run();
+        } catch (e) {
+            // SessionSaver is available since Firefox 26.
+        }
     }
 }
 
