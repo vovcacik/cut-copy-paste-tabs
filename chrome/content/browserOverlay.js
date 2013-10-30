@@ -174,19 +174,25 @@ var CutCopyPasteTabs = {
         } catch (e) {
             // SessionSaver is available since Firefox 26.
         }
-    }
+    },
+    Services: {}
 }
 
 /**
- * Listen to opening and hiding of tab context menu to make our menu items bold
- * if there are multiselected tabs.
+ * Load services
  */
-window.addEventListener(
-    "load",
-    function(event) {
-        var tabContextMenu = document.getElementById("tabContextMenu");
-        tabContextMenu.addEventListener("popupshowing", CutCopyPasteTabs, false);
-        tabContextMenu.addEventListener("popuphiding", CutCopyPasteTabs, false);
-    },
-    false
-);
+XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "appinfo",
+    "@mozilla.org/xre/app-info;1",
+    "nsIXULRuntime");
+XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "clipboard",
+    "@mozilla.org/widget/clipboard;1",
+    "nsIClipboard");
+XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "console",
+    "@mozilla.org/consoleservice;1",
+    "nsIConsoleService");
+XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "prefs",
+    "@mozilla.org/preferences-service;1",
+    "nsIPrefBranch");
+XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "sessionstore",
+    "@mozilla.org/browser/sessionstore;1",
+    "nsISessionStore");
