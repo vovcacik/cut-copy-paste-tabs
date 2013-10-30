@@ -1,5 +1,6 @@
 var CutCopyPasteTabs = {
     LINE_SEPARATOR: this.Services.appinfo.OS === "WINNT" ? "\r\n" : "\n",
+    ON_DEMAND_PREF: "browser.sessionstore.restore_on_demand",
     /**
      * Copies URLs to clipboard and removes the tabs.
      * @see TabContextMenu http://mxr.mozilla.org/mozilla-release/source/browser/base/content/browser.js#6982
@@ -56,7 +57,9 @@ var CutCopyPasteTabs = {
          * Matches: scheme://userinfo@host:port/path?query#fragment
          * @see http://tools.ietf.org/html/rfc3986
          */
-        var on_demand = this.Services.prefs.getBoolPref("browser.sessionstore.restore_on_demand");
+        var on_demand = false;
+        if (this.Services.prefs.getPrefType(this.ON_DEMAND_PREF)) // if exists...
+            on_demand = this.Services.prefs.getBoolPref(this.ON_DEMAND_PREF);
 
         var urlRegex = /\w[\w\d\+\-\.]+:\/\/(?:[\w\d\-\._~%!\$&'\(\)\*\+,;=:]*@)?(?:\[[\d\.A-Fa-f:]+\]|[\w\d\-\._~%!\$&'\(\)\*\+,;=]+)(?::\d+)?(?:\/[\w\d\-\._~%!\$&'\(\)\*\+,;=:@]*)*(?:\?[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?(?:#[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?/g;
         var matches = uri.match(urlRegex);
