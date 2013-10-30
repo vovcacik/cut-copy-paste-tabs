@@ -94,30 +94,6 @@ var CutCopyPasteTabs = {
         }
     },
     /**
-     * Highlights and dehighlights context menu items to indicate the operation/command
-     * will run on multiple tabs.
-     */
-    handleEvent: function (event) {
-        if (event.target.id == "tabContextMenu") {
-            switch (event.type) {
-                case 'popupshowing':
-                    if (this._getTabs().length > 1) {
-                        var menuitems = this._getMenuitems();
-                        for (var i = 0; i < menuitems.length; i++) {
-                            menuitems[i].setAttribute("style", "font-weight: bold;");
-                        }
-                    }
-                    break;
-                case 'popuphiding':
-                    var menuitems = this._getMenuitems();
-                    for (var i = 0; i < menuitems.length; i++) {
-                        menuitems[i].setAttribute("style", "font-weight: normal;");
-                    }
-                    break;
-            }
-        }
-    },
-    /**
      * Returns array of tabs that should be processed.
      * @see https://bugzilla.mozilla.org/show_bug.cgi?id=566510
      * @see https://addons.mozilla.org/addon/bug-566510/
@@ -180,7 +156,7 @@ var CutCopyPasteTabs = {
     Services: {}
 }
 
-/**
+/*
  * Load services
  */
 XPCOMUtils.defineLazyServiceGetter(CutCopyPasteTabs.Services, "appinfo",
