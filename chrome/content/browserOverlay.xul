@@ -34,15 +34,18 @@
         <menuitem id="ccptabs_menu_cut" position="8"
                   label="&cutCmd.label;"
                   accesskey="&cutCmd.accesskey;"
-                  command="ccptabs_cmd_cut"/>
+                  command="ccptabs_cmd_cut"
+                  observes="multiselectionContextBroadcaster"/>
         <menuitem id="ccptabs_menu_copy" position="9"
                   label="&copyCmd.label;"
                   accesskey="&copyCmd.accesskey;"
-                  command="ccptabs_cmd_copy"/>
+                  command="ccptabs_cmd_copy"
+                  observes="multiselectionContextBroadcaster"/>
         <menuitem id="ccptabs_menu_paste" position="10"
                   label="&pasteCmd.label;"
                   accesskey="&pasteCmd.accesskey;"
-                  command="ccptabs_cmd_paste"/>
+                  command="ccptabs_cmd_paste"
+                  observes="multiselectionContextBroadcaster"/>
         <menuseparator position="11"/>
     </menupopup>
 </overlay>
