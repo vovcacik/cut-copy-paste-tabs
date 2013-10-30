@@ -150,14 +150,16 @@ var CutCopyPasteTabs = {
      */
     _getTransferable: function (sourceTab) {
         var transferable = Cc["@mozilla.org/widget/transferable;1"].createInstance(Ci.nsITransferable);
-        if (sourceTab) {
-            var window = gBrowser.getBrowserForTab(sourceTab).contentDocument.defaultView;
-            var loadContext = window.QueryInterface(Ci.nsIInterfaceRequestor)
-                .getInterface(Ci.nsIWebNavigation)
-                .QueryInterface(Ci.nsILoadContext);
-            transferable.init(loadContext);
-        } else {
-            transferable.init(null);
+        if ("init" in transferable) {
+            if (sourceTab) {
+                var window = gBrowser.getBrowserForTab(sourceTab).contentDocument.defaultView;
+                var loadContext = window.QueryInterface(Ci.nsIInterfaceRequestor)
+                    .getInterface(Ci.nsIWebNavigation)
+                    .QueryInterface(Ci.nsILoadContext);
+                transferable.init(loadContext);
+            } else {
+                transferable.init(null);
+            }
         }
         return transferable;
     },
