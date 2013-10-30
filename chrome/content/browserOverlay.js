@@ -1,5 +1,5 @@
 var CutCopyPasteTabs = {
-    LINE_SEPARATOR: Services.appinfo.OS === "WINNT" ? "\r\n" : "\n",
+    LINE_SEPARATOR: this.Services.appinfo.OS === "WINNT" ? "\r\n" : "\n",
     /**
      * Copies URLs to clipboard and removes the tabs.
      * @see TabContextMenu http://mxr.mozilla.org/mozilla-release/source/browser/base/content/browser.js#6982
@@ -25,7 +25,7 @@ var CutCopyPasteTabs = {
 
         transferable.addDataFlavor("text/unicode");
         transferable.setTransferData("text/unicode", this._getSupportsString(str), str.length * 2);
-        Services.clipboard.setData(transferable, null, Services.clipboard.kGlobalClipboard);
+        this.Services.clipboard.setData(transferable, null, this.Services.clipboard.kGlobalClipboard);
     },
     /**
      * Tries to read the clipboard, extract all well formatted URLs and open them in new tabs
@@ -37,13 +37,13 @@ var CutCopyPasteTabs = {
         var transferable = this._getTransferable();
 
         transferable.addDataFlavor("text/unicode");
-        Services.clipboard.getData(transferable, Services.clipboard.kGlobalClipboard);
+        this.Services.clipboard.getData(transferable, this.Services.clipboard.kGlobalClipboard);
         try {
             transferable.getTransferData("text/unicode", uri, uriLength);
         } catch(error) {
-            Services.console.logStringMessage("[Cut, copy and paste Tabs] " +
+            this.Services.console.logStringMessage("[Cut, copy and paste Tabs] " +
                 error.name + ": " + error.message);
-            Services.console.logStringMessage("[Cut, copy and paste Tabs] " +
+            this.Services.console.logStringMessage("[Cut, copy and paste Tabs] " +
                 "Probably there isn't any text in your clipboard.");
             return;
         }
@@ -56,8 +56,7 @@ var CutCopyPasteTabs = {
          * Matches: scheme://userinfo@host:port/path?query#fragment
          * @see http://tools.ietf.org/html/rfc3986
          */
-        var gSessionStore = Cc["@mozilla.org/browser/sessionstore;1"].getService(Ci.nsISessionStore);
-        var on_demand = Services.prefs.getBoolPref("browser.sessionstore.restore_on_demand");
+        var on_demand = this.Services.prefs.getBoolPref("browser.sessionstore.restore_on_demand");
 
         var urlRegex = /\w[\w\d\+\-\.]+:\/\/(?:[\w\d\-\._~%!\$&'\(\)\*\+,;=:]*@)?(?:\[[\d\.A-Fa-f:]+\]|[\w\d\-\._~%!\$&'\(\)\*\+,;=]+)(?::\d+)?(?:\/[\w\d\-\._~%!\$&'\(\)\*\+,;=:@]*)*(?:\?[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?(?:#[\w\d\-\._~%!\$&'\(\)\*\+,;=:@\/\?]*)?/g;
         var matches = uri.match(urlRegex);
@@ -68,7 +67,7 @@ var CutCopyPasteTabs = {
                 if (on_demand) {
                     // Create new tab, but dont load the content.
                     tab = gBrowser.addTab(null);
-                    gSessionStore.setTabState(tab,
+                    this.Services.sessionstore.setTabState(tab,
                         '{\
                             "entries":[\
                                 {\
